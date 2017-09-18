@@ -1,0 +1,27 @@
+package FSFilter
+author Ryan Mitchell
+
+use BesPolicy         BesPolicy-*
+use GaudiInterface    GaudiInterface-*    External
+
+use DstEvent          DstEvent-*          Event
+use EventModel        EventModel-*        Event
+use EvtRecEvent       EvtRecEvent-*       Event
+use EvTimeEvent       EvTimeEvent-*       Event
+use McTruth           McTruth-*           Event
+
+use ParticleID        ParticleID-*        Analysis
+use VertexFit         VertexFit-*         Analysis 
+use DTagTool          DTagTool-*          Analysis
+
+
+use EmcCalibConstSvc  EmcCalibConstSvc-*  Emc
+use EmcRawEvent       EmcRawEvent-*       Emc
+use MdcRecEvent       MdcRecEvent-*       Mdc
+
+
+use BesROOT           BesROOT-00-*        External
+
+apply_pattern component_library 
+library FSFilter *.cxx  components/*.cxx
+apply_pattern declare_runtime files=*.txt

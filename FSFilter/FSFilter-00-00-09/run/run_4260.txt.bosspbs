@@ -1,0 +1,4 @@
+#!/bin/tcsh -f 
+source /home/bes/lig/bin/boss6.6.4
+cd /workfs/bes/lig/work.6.6.4/FSFilter/FSFilter-00-00-06/run
+./Lboss -pbsreport run_4260.txt

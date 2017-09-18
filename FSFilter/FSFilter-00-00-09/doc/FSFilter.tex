@@ -1,0 +1,548 @@
+
+
+\documentclass[11pt]{article}
+%\usepackage{graphicx}
+\usepackage{amssymb}
+%\usepackage[]{epsfig}
+%\usepackage{parskip}
+
+
+\textheight 8.0in
+\topmargin 0.0in
+\textwidth 6.0in
+\oddsidemargin 0.25in
+\evensidemargin 0.25in
+
+\newcommand{\gev}{\mathrm{GeV}}
+\newcommand{\gevc}{\mathrm{GeV/c}}
+\newcommand{\gevccgevcc}{\mathrm{GeV^2/c^4}}
+
+\begin{document}
+
+
+\title{The BESIII {\tt FSFilter} Package\\ (version 00-00-00)}
+\author{Ryan Mitchell}
+\maketitle
+
+\abstract{This document describes how to use the {\tt FSFilter} package to simultaneously reconstruct multiple final states at BESIII.  Final states can be reconstructed either exclusively or inclusively.  The output of the {\tt FSFilter} package is a set of root trees that can then be used as the basis for further analysis.}
+
+\tableofcontents
+
+\parindent 0pt
+\parskip 10pt
+
+
+\section{Purpose}
+
+{\tt FSFilter} is a package that can be used to convert BESIII data into a format that can be more easily analyzed.  {\tt FSFilter} ``Filters'' information from many ``Final States'' into root trees.  Any number of final states can be selected using input parameters in the job options file.  The final states can be reconstructed either exclusively (in which case a kinematic fit to the initial four-momentum is performed) or inclusively (in which case a range of missing masses can be specified).  Only very loose cuts are applied at this stage -- it is assumed that most of the analysis will be done using the output root trees.
+
+\section{Overview}
+
+The {\tt FSFilter} algorithm follows three basic steps:
+\begin{enumerate}
+\item{Lists of particle types are made according to the loose selection criteria described in section~\ref{sec:particles}.  The particles considered are $\Lambda$, $\overline{\Lambda}$, $e^+$, $e^-$, $\mu^+$, $\mu^-$, $p$, $\overline{p}$, $\eta$~(decaying to $\gamma\gamma$), $\gamma$, $K^+$, $K^-$, $K^0_S$~(decaying to $\pi^+\pi^-$), $\pi^+$, $\pi^-$, and $\pi^0$~(decaying to $\gamma\gamma$).  Tracks and showers are allowed to appear in multiple lists.}
+\item{The particle lists are combined to form a specified final state.  All combinations are considered.  Here, tracks and showers can only be used once per combination to avoid double-counting.  If a final state is being exclusively reconstructed, a kinematic fit to the initial four-momentum is performed and a loose $\chi^2$ cut is applied.  For inclusive reconstruction, missing mass squared cuts are applied.  This is described further in section~\ref{sec:event}.}
+\item{Finally, the resulting information is written out to a series of root trees, described in section~\ref{sec:tree}.}
+\end{enumerate}
+
+
+In the following documentation, the particle selection criteria~(section~\ref{sec:particles}) and event selection criteria (section~\ref{sec:event}) are first discussed.  Then a number of details are given regarding the final state numbering scheme~(section~\ref{sec:numbering}) and the job options files~(sections~\ref{sec:parameters} and~\ref{sec:example}).  Finally, the contents of the output root trees are listed in section~\ref{sec:tree}.
+
+
+\section{Particle Selection}
+\label{sec:particles}
+
+The {\tt FSFilter} algorithm begins by creating lists of final state particles according to the selection criteria discussed in this section.
+
+\subsection[Tracks ($e^{\pm},\mu^{\pm},\pi^{\pm},K^{\pm},p^{\pm}$)]{\boldmath Tracks ($e^{\pm},\mu^{\pm},\pi^{\pm},K^{\pm},p^{\pm}$)}
+
+Tracks are selected using a combination of the {\tt RecMdcKalTrack} and {\tt ParticleID} packages.  No additional requirements are made on the track quality, momentum or angles beyond those made within the {\tt RecMdcKalTrack} package.  For particle identification, the {\tt ParticleID} package is set up as follows:
+\begin{verbatim}
+        ParticleID* pid = ParticleID::instance();
+        pid->init();
+        pid->setMethod(pid->methodProbability());
+        pid->setRecTrack(*iTrk);
+        pid->usePidSys(pid->useDedx()  | 
+                       pid->useTof1()  | 
+                       pid->useTof2());
+        pid->identify(pid->onlyPion()     | 
+                      pid->onlyKaon()     | 
+                      pid->onlyProton()   | 
+                      pid->onlyElectron() | 
+                      pid->onlyMuon());
+        pid->calculate();
+\end{verbatim}
+Very loose cuts are then placed on the probabilities of different hypotheses.  For a track to be counted as a ($e^{\pm},\mu^{\pm},\pi^{\pm},K^{\pm},p^{\pm}$) the probability of the ($e^{\pm},\mu^{\pm},\pi^{\pm},K^{\pm},p^{\pm}$) hypothesis must be greater than $10^{-5}$.  Note that tracks that satisfy more than one hypothesis are included in multiple lists.  All possible combinations are considered when forming events, which is discussed in section~\ref{sec:event}.
+
+
+\subsection[Showers ($\gamma$)]{\boldmath Showers ($\gamma$)}
+\label{sec:showers}
+
+Showers are reconstructed using the {\tt RecEmcShower} package.  In addition to the requirements imposed by the {\tt RecEmcShower} package, the following standard selection criteria must be satisfied:
+\begin{verbatim}
+    (1) 0 < shower time < 14
+    (2) |cos(theta)| < 0.80 (barrel photons) 
+           or 0.86 < |cos(theta)| < 0.92 (endcap photons)
+    (3) for barrel photons:  E > 25 MeV
+    (4) for endcap photons:  E > 50 MeV
+\end{verbatim}
+
+\subsection[$\pi^0\to\gamma\gamma$ and $\eta\to\gamma\gamma$]{\boldmath $\pi^0\to\gamma\gamma$ and $\eta\to\gamma\gamma$}
+
+Lists of $\pi^0\to\gamma\gamma$ and $\eta\to\gamma\gamma$ decays are made using the {\tt EvtRecPi0} and  {\tt EvtRecEtaToGG} packages, respectively.  The following additional cuts are imposed:
+\begin{verbatim}
+    (1) chi2 < 2500 (from the fit to the eta or pi0 mass)
+    (2) for pi0:  0.107 < mass(gamma gamma) < 0.163 GeV/c2
+        for eta:  0.400 < mass(gamma gamma) < 0.700 GeV/c2
+\end{verbatim}
+Both photons from the $\pi^0$ and $\eta$ are also required to pass the shower cuts listed in section~\ref{sec:showers}.
+
+
+\subsection[$K^0_S \to \pi^+\pi^-$, $\Lambda \to p\pi^-$ and $\overline{\Lambda}\to\overline{p}\pi^+$]{\boldmath $K^0_S \to \pi^+\pi^-$, $\Lambda \to p\pi^-$ and $\overline{\Lambda}\to\overline{p}\pi^+$ }
+
+$K^0_S \to \pi^+\pi^-$, $\Lambda \to p\pi^-$ and $\overline{\Lambda}\to\overline{p}\pi^+$ reconstruction is done with the {\tt EvtRecVeeVertex} package with the following additional cuts:
+\begin{verbatim}
+    (1) chi2 < 100 (from the fit to the Ks or Lambda vertex)
+    (2) for Ks:      0.471 < mass(pi+ pi-) < 0.524 GeV/c2
+        for Lambda:  1.100 < mass(p pi) < 1.300 GeV/c2
+\end{verbatim}
+
+
+\section{Event Selection}
+\label{sec:event}
+
+Once the lists of particles are made, they are combined to form different final states.  All combinations are considered.  To avoid double-counting, tracks and showers (including tracks and showers from $\pi^0$, $\eta$, $K^0_S$, and $\Lambda$ decays) are used only once per combination.  Parameters can be specified in the job options file (see section~\ref{sec:parameters}) to reduce the combinatorics.
+
+For both inclusive and exclusive final states, a primary vertex fit (using the {\tt VertexFit} package) is performed using tracks originating from the primary vertex.  The primary vertex and the resulting track parameters are saved.  If the final state contains no tracks from the primary vertex, the beam spot is used as the primary vertex and no fit is performed.  Secondary vertices due to $K^0_S$ and $\Lambda$ decays are then created with the {\tt SecondVertexFit} package.
+
+For inclusive final states, the missing mass is calculated using the final state particles and is required to be between the bounds specified in the job options file (see section~\ref{sec:parameters}).  Multiple combinations are allowed to be recorded per event.
+
+For exclusive final states, the {\tt KalmanKinematicFit} package is used to fit the four-momenta of the final state particles to the initial four-momentum of the $e^+e^-$ interaction.  Additional constraints are placed on the $\pi^0$, $\eta$, $K^0_S$, and $\Lambda$ masses.  A loose cut (that can be tuned in the job options file) is placed on the resulting $\chi^2$ of each combination.
+
+
+\section{Final State Numbering}
+\label{sec:numbering}
+
+{\tt FSFilter} can reconstruct any final state composed of a combination of $\Lambda$ (called {\tt Lambda}, decaying to $p\pi^-$), $\overline\Lambda$ (called {\tt ALambda}, decaying to $\overline{p}\pi^+$), $e^+$, $e^-$, $\mu^+$, $\mu^-$, $p^+$~(proton), $p^-$~(anti-proton), $\eta(\to\gamma\gamma)$, $\gamma$, $K^+$, $K^-$, $K^0_S(\to\pi^+\pi^-)$, $\pi^+$, $\pi^-$, and $\pi^0(\to\gamma\gamma)$.  Final states are designated using two integers, ``code1'' and ``code2''.  The digits of each integer are used to specify the number of different particle types in the final state:
+\begin{verbatim}
+    code1 = abcdefg
+            a = number of gamma
+            b = number of K+ 
+            c = number of K- 
+            d = number of Ks  ( --> pi+ pi- )
+            e = number of pi+ 
+            f = number of pi- 
+            g = number of pi0 ( --> gamma gamma )
+
+    code2 = hijklmnop
+            h = number of Lambda (--> p+ pi-)
+            i = number of ALambda (--> p- pi+)
+            j = number of e+
+            k = number of e- 
+            l = number of mu+ 
+            m = number of mu-
+            n = number of p+ 
+            o = number of p- 
+            p = number of eta  ( --> gamma gamma )
+\end{verbatim}
+These integers are sometimes combined into a single string of the form:
+\begin{verbatim}
+    "code2_code1"
+\end{verbatim}
+Here are a few examples:
+\begin{verbatim}
+    "0_111":      pi+ pi- pi0
+    "0_1000002":  gamma pi0 pi0
+    "1_220000":   eta K+ K+ K- K-
+    "11000_110":  mu+ mu- pi+ pi-
+\end{verbatim}
+%In the root trees, four-momenta and other information are listed for particles in the following order:
+%\begin{verbatim}
+%    e+ e- mu+ mu- p+ p- eta gamma K+ K- Ks pi+ pi- pi0
+%\end{verbatim}
+
+
+\section{Job Options Parameters}
+\label{sec:parameters}
+
+\subsection{\tt FSFilter.FS(N) = (EXC/INC)(code2)\_(code1);}
+
+Use a list of these commands to specify which final states to reconstruct.
+\begin{verbatim}
+    (N): a unique integer between 0 and 9999 for each 
+         reconstructed final state (this is only used to 
+         differentiate FS(N) commands, and isn't used
+         elsewhere)
+
+    (EXC/INC): use EXC to reconstruct the final state 
+               exclusively (using a kinematic fit);
+               use INC for inclusive reconstruction (with 
+               bounds on the missing mass)
+
+    (code2) and (code1):  the final state numbering integers 
+                          described in the "final state 
+                          numbering" section
+\end{verbatim}
+Examples:
+\begin{verbatim}
+    Reconstruct eta K+ K- exclusively:
+
+        FSFilter.FS100 = EXC1_110000;
+
+    Reconstruct pi+ pi- inclusively:
+
+        FSFilter.FS200 = INC0_110;
+\end{verbatim}
+
+
+\subsection{\tt FSFilter.maxShowers = (n);}
+
+Only consider events with less than or equal to {\tt (n)} showers.  The default is 50.  The purpose of this requirement is just to speed up reconstruction.  When there are more than 50~showers in an event, the possible combinations of showers used to form photons or $\pi^0$ or $\eta$ can become very large.
+
+
+\subsection{\tt FSFilter.maxExtraTracks = (n);}
+
+(EXCLUSIVE RECONSTRUCTION) For exclusive reconstruction, only allow {\tt (n)} extra tracks (tracks beyond those required in the final state) in the event.  The default is 2.  This requirement is ignored for inclusively reconstructed final states.
+
+
+\subsection{\tt FSFilter.cmEnergy = (E);}
+
+Specify the center of mass energy~{\tt (E)} in units of GeV.  The default is the $\psi(2S)$ mass, $3.686093~\gev$.  (Eventually the default will come from an external {\tt BeamEnergy} package.)
+
+\subsection{\tt FSFilter.crossingAngle = (theta);}
+
+Set the crossing angle in radians.  The default is $0.011$~radians.
+
+\subsection{\tt FSFilter.energyTolerance = (deltaE);}
+
+(EXCLUSIVE RECONSTRUCTION) For exclusive reconstruction, only combinations of final state particles that have a total energy within {\tt (deltaE)} of the initial total energy will be processed.  {\tt (deltaE)} is given in~GeV.  This reduces the number of kinematic fits that are performed and helps speed processing.  The default is $0.250~\gev$.
+
+\subsection{\tt FSFilter.momentumTolerance = (deltaP);}
+
+(EXCLUSIVE RECONSTRUCTION) Like {\tt energyTolerance}, this command requires the total momentum of final state particles be within {\tt (deltaP)} (in~$\gevc$) of the initial total momentum.  The default is $0.250~\gevc$.
+
+\subsection{\tt FSFilter.maxKinematicFitChi2DOF = (chi2DOF);}
+
+(EXCLUSIVE RECONSTRUCTION) For exclusive reconstruction, only record events that have a kinematic fit $\chi^2/dof$ less than {\tt (chi2DOF)}.  Using this can reduce file sizes.  The default is $100$.
+
+\subsection{\tt FSFilter.lowerMissingMass2 = (lowMM);}
+
+(INCLUSIVE RECONSTRUCTION) Require the missing mass squared of an inclusive combination of final state particles be greater than {\tt (lowMM)} (in~$\gevccgevcc$).  The default is set at $-25.0~\gevccgevcc$.
+
+\subsection{\tt FSFilter.upperMissingMass2 = (highMM);}
+
+(INCLUSIVE RECONSTRUCTION) Require the missing mass squared of an inclusive combination of final state particles be less than {\tt (hignMM)} (in~$\gevccgevcc$).  The default is set at $25.0~\gevccgevcc$.
+
+\subsection{\tt FSFilter.YUPING = (true/false);}
+
+If {\tt true}, use the kaon and pion tracking corrections developed by Yuping Guo.  The default is {\tt false}.
+
+\subsection{\tt FSFilter.printTruthInformation = (true/false);}
+
+If {\tt true}, print MC truth information to the screen.  This can be useful for debugging.  The default is {\tt false}.
+
+
+\section{Example Job Options File}
+\label{sec:example}
+
+Here is a job options file to exclusively reconstruct $\psi(2S)\to\gamma X_i$, where $X_i$ is:
+\begin{enumerate}
+\item{$\pi^+\pi^+\pi^-\pi^-$}
+\item{$\pi^+\pi^+\pi^-\pi^-\pi^0\pi^0$}
+\item{$\pi^+\pi^+\pi^+\pi^-\pi^-\pi^-$}
+\item{$K^-K^0_S\pi^+$}
+\item{$K^+K^0_S\pi^-$}
+\item{$K^+K^-\pi^0$}
+\item{$K^+K^-\pi^+\pi^-$}
+\item{$K^-K^0_S\pi^+\pi^+\pi^-$}
+\item{$K^+K^0_S\pi^+\pi^-\pi^-$}
+\item{$K^+K^-\pi^+\pi^-\pi^0$}
+\item{$K^+K^+\pi^+\pi^+\pi^-\pi^-$}
+\item{$K^+K^+K^-K^-$}
+\item{$\eta\pi^+\pi^-$}
+\item{$\eta\pi^+\pi^+\pi^-\pi^-$}
+\end{enumerate}
+and to search for $\psi(2S)\to\gamma\eta_c(1S)$ using inclusive photons.
+
+\begin{verbatim}
+
+  // ************************************************
+  //      EXAMPLE FSFILTER JOB OPTIONS FILE
+  // ************************************************
+
+  #include "$ROOTIOROOT/share/jobOptions_ReadRec.txt"
+  #include "$VERTEXFITROOT/share/jobOptions_VertexDbSvc.txt"
+  #include "$MAGNETICFIELDROOT/share/MagneticField.txt"
+  #include "$ABSCORROOT/share/jobOptions_AbsCor.txt"
+  #include "$PI0ETATOGGRECALGROOT/share/jobOptions_Pi0EtaToGGRec.txt"
+  #include "$FSFILTERROOT/share/jobOptions_FSFilter.txt"
+
+  FSFilter.cmEnergy = 3.686093;
+
+  FSFilter.FS1  = "EXC0_1000220";
+  FSFilter.FS2  = "EXC0_1000222";
+  FSFilter.FS3  = "EXC0_1000330";
+  FSFilter.FS4  = "EXC0_1011100";
+  FSFilter.FS5  = "EXC0_1101010";
+  FSFilter.FS6  = "EXC0_1110001";
+  FSFilter.FS7  = "EXC0_1110110";
+  FSFilter.FS8  = "EXC0_1011210";
+  FSFilter.FS9  = "EXC0_1101120";
+  FSFilter.FS10 = "EXC0_1110111";
+  FSFilter.FS11 = "EXC0_1110220";
+  FSFilter.FS12 = "EXC0_1220000";
+  FSFilter.FS13 = "EXC1_1000110";
+  FSFilter.FS14 = "EXC1_1000220";
+
+  FSFilter.lowerMissingMass2 = 6.76;
+  FSFilter.upperMissingMass2 = 10.24;
+
+  FSFilter.FS100 = "INC0_1000000";
+
+  // Input REC or DST file name 
+  EventCnvSvc.digiRootInputFile = {"/bes3fs/offline/...."};
+
+  // Set output level threshold 
+  // (2=DEBUG, 3=INFO, 4=WARNING, 5=ERROR, 6=FATAL )
+  MessageSvc.OutputLevel = 5;
+
+  // Number of events to be processed (default is 10)
+  ApplicationMgr.EvtMax = 500;
+
+  ApplicationMgr.HistogramPersistency = "ROOT";
+  NTupleSvc.Output = { "FILE1 DATAFILE='PsiPrimeGammaX.root' 
+                       OPT='NEW' TYP='ROOT'"};
+\end{verbatim}
+
+
+\section{Output Root Trees}
+\label{sec:tree}
+
+{\tt FSFilter} generates three types of root trees:
+\begin{enumerate}
+\item{Reconstructed information is stored in trees named {\tt nt(EXC/INC)(code2)\_(code1)}, where {\tt (EXC/INC)} is either {\tt EXC} or {\tt INC} depending on whether the reconstruction was done exclusively or inclusively, and {\tt (code2)} and {\tt (code1)} are the numbering codes described in section~\ref{sec:numbering}. There is one entry for each combination of particles that passes the loose cuts described in sections~\ref{sec:particles} and~\ref{sec:event}. Thus there may be more than one entry per event.  This is the main tree for physics analysis.}
+\item{MC generated information for each exclusive final state is stored in trees named {\tt ntGEN(code2)\_(code1)}.  This type of tree contains exactly one entry per each event generated with this final state, regardless of whether or not the event was reconstructed.  It is only used for exclusive final states.  This tree can be used to look at generator-level distributions.}
+\item{MC generated information for all final states is stored in one tree named {\tt ntGEN}.  This tree contains exactly one entry per event, independent of final state, and independent of reconstruction.  Use this tree to count the number of events generated for different processes.}
+\end{enumerate}
+
+
+Each of these trees contains some subset of the blocks of information described in the following subsections.  Only the reconstructed tree, {\tt nt(EXC/INC)(code2)\_(code1)}, for example, contains shower or track information.
+
+By convention particles are listed in trees in the following order:  
+\begin{verbatim}
+    Lambda ALambda e+ e- mu+ mu- p+ p- eta gamma K+ K- Ks pi+ pi- pi0
+\end{verbatim}
+For example, in the process $\psi(2S)\to\pi^+\pi^-J/\psi; J/\psi\to\mu^+\mu^-$, the $\mu^+$ is particle~1, the $\mu^-$ is particle~2, the $\pi^+$ is particle~3, and the $\pi^-$ is particle~4. Or as another example, in the process $\psi(2S)\to\gamma\chi_{c1}; \chi_{c1}\to\eta\pi^0\pi^0$, the $\eta$ is particle~1, the $\gamma$ is particle~2, one $\pi^0$ is particle~3, and the other $\pi^0$ is particle~4.  In cases like this where there are identical particles, no ordering is assumed.
+
+
+
+\subsection{Event Information}
+
+The ``Event Selection'' block contains information about the event as a whole.
+
+The following information is contained in all three tree types:
+\begin{verbatim}
+  Run:          run number
+  Event:        event number
+  BeamEnergy:   beam energy
+  NTracks:      total number of tracks in the event
+  NShowers:     total number of showers in the event
+\end{verbatim}
+The following information is only contained in {\tt nt(EXC/INC)(code2)\_(code1)}, where the total energies and momenta are calculated using the raw particle four-momenta (i.e., before any vertex or kinematic fitting):
+\begin{verbatim}
+  TotalEnergy:    total energy of all final state particles
+  TotalPx:        total px of all final state particles
+  TotalPy:        total py of all final state particles
+  TotalPz:        total pz of all final state particles
+  TotalP:         total momentum of all final state particles
+  MissingMass2:   missing mass squared of the event
+  VChi2:          chi2 of the vertex fit if there was a
+                    vertex fit (-1 otherwise)
+\end{verbatim}
+Finally, this information is only contained in {\tt ntEXC(code2)\_(code1)}:
+\begin{verbatim}
+  Chi2:         chi2 of the kinematic fit
+  Chi2DOF:      chi2/dof of the kinematic fit
+\end{verbatim}
+
+
+\subsection{Particle Four-Momenta}
+
+The ``particle four-momenta'' block contains the four-momentum for each particle in the final state.  Different types of four-momenta are distinguished using prefixes.  MC generated four-momenta have a prefix~{\tt MC}; raw four-momenta have a prefix~{\tt R}; vertex-constrained four-momenta have a prefix {\tt V}; and the fully-constrained four-momenta resulting from the kinematic fit have no prefix.  Different particles are differentiated using {\tt P(n)}, where {\tt (n)} is the number of the particle in the ordered list.  For example, in the process $\psi(2S)\to\pi^+\pi^-J/\psi; J/\psi\to\mu^+\mu^-$, the raw energy of the $\pi^+$ is given by {\tt REnP3}.
+
+\begin{verbatim}
+  (prefix)PxP(n):  x momentum of particle (n)
+  (prefix)PyP(n):  y momentum of particle (n)
+  (prefix)PzP(n):  z momentum of particle (n)
+  (prefix)EnP(n):  energy of particle (n)
+\end{verbatim}
+
+Particle four-momenta are included in both the {\tt nt(EXC/INC)(code2)\_(code1)} and the {\tt ntGEN(code2)\_(code1)} trees.  In the {\tt ntGEN(code2)\_(code1)} tree, the four-momenta are actually written out twice, once with the {\tt MC} prefix and once with no prefix.  This makes it easier to treat the generated MC more like data in some applications.
+
+In the reconstructed tree, {\tt nt(EXC/INC)(code2)\_(code1)}, MC generated information is also included for events in which the generated and reconstructed final states are the same.  When there are identical particles, however, no attempt is made to ensure that the particles are ordered consistently, i.e., no attempt is made to match reconstructed particles with generated particles.
+
+
+\subsection{Shower Information}
+
+Shower information is written out for every reconstructed photon that is part of a final state.  Individual photons have the prefix {\tt Sh}; photons from $\pi^0$ decay have either the prefix {\tt Pi0ShLo} (for the low energy photon) or {\tt Pi0ShHi} (for the high energy photon); and similarly photons from $\eta$ decay have the prefix {\tt EtaShLo} or {\tt EtaShHi}.  As in the four-momenta case, showers from different particles are differentiated using {\tt P(n)}, where {\tt (n)} is the number of the particle in the ordered list.  As examples: the energy of the low energy photon from the $\pi^0$ decay in $\psi(2S)\to\pi^+\pi^-\pi^0$ is called {\tt Pi0ShLoEnergyP3}; and the timing of the photon in $\psi(2S)\to\gamma\eta$ is called {\tt ShTimeP2}.
+\begin{verbatim}
+  (prefix)TimeP(n):     timing information
+  (prefix)EnergyP(n):   shower energy
+  (prefix)CosThetaP(n): cos(theta) in the lab
+  (prefix)E925P(n):     E9/E25 (the energy in a 3x3 array
+                         over the energy in a 5x5 array)
+  (prefix)Pi0PullP(n):  the pull of the best pi0 formed
+                         with this shower
+  (prefix)DangP(n):     smallest angle between this shower
+                         and tracks projected to the EMC
+\end{verbatim}
+
+\subsection{Track Information}
+
+Track information is written out for every reconstructed track that is part of a final state.  Tracks from the primary vertex have the prefix~{\tt Tk}.  Tracks from secondary vertices ($K^0_S$, $\Lambda$, and $\overline{\Lambda}$ decays) have the prefixes {\tt VeeTk1} (for the $\pi^+$, $p$, and $\overline{p}$, respectively) and {\tt VeeTk2} (for the $\pi^-$, $\pi^-$, and $\pi^+$).
+
+
+\begin{verbatim}
+  (prefix)ProbPiP(n):   probability track is a pion
+  (prefix)ProbKP(n):    probability track is a kaon
+  (prefix)ProbPP(n):    probability track is a proton
+  (prefix)ProbMuP(n):   probability track is a muon
+  (prefix)ProbEP(n):    probability track is an electron
+  (prefix)RVtxP(n):     radial distance of closest approach
+                          to the primary vertex (in cm)
+  (prefix)ZVtxP(n):     longitudinal distance
+                          to the primary vertex (in cm)
+  (prefix)CosThetaP(n): cos(theta) in the lab
+  (prefix)EPP(n):       E/p (shower energy over
+                          track momentum)
+\end{verbatim}
+
+\subsection[$\pi^0\to\gamma\gamma$ Information]{\boldmath $\pi^0\to\gamma\gamma$ Information}
+
+The following information for each $\pi^0\to\gamma\gamma$ decay is recorded:
+\begin{verbatim}
+  Pi0MassP(n):    the unconstrained gamma gamma mass
+  Pi0Chi2P(n):    the chi2 of the 1C fit to the pi0 mass
+\end{verbatim}
+Note that the shower information for each $\gamma$ from the $\pi^0$ is recorded along with the other showers.
+
+\subsection[$\eta\to\gamma\gamma$ Information]{\boldmath $\eta\to\gamma\gamma$ Information}
+
+The decay $\eta\to\gamma\gamma$ is treated in the same way as $\pi^0\to\gamma\gamma$:
+\begin{verbatim}
+  EtaMassP(n):    the unconstrained gamma gamma mass
+  EtaChi2P(n):    the chi2 of the 1C fit to the eta mass
+\end{verbatim}
+Note that the shower information for each $\gamma$ from the $\eta$ is recorded along with the other showers.
+
+\subsection[$K^0_S\to\pi^+\pi^-$, $\Lambda \to p\pi^-$ and $\overline{\Lambda}\to\overline{p}\pi^+$ Information]{\boldmath $K^0_S\to\pi^+\pi^-$, $\Lambda \to p\pi^-$ and $\overline{\Lambda}\to\overline{p}\pi^+$ Information}
+
+This information is recorded for each $K^0_S\to\pi^+\pi^-$, $\Lambda \to p\pi^-$ and $\overline{\Lambda}\to\overline{p}\pi^+$ decay:
+\begin{verbatim}
+  VeeMassP(n):    the unconstrained mass of the daughters
+  VeeChi2P(n):    the chi2 of the secondary vertex fit
+  VeeLSigma(n):   the separation between the primary and 
+                   secondary vertex (L) over its error (sigma)
+\end{verbatim}
+Note that the track information for the daughter tracks are recorded along with other tracks.
+
+\subsection[Information to Tag $\psi(2S)\to XJ/\psi$]{\boldmath Information to Tag $\psi(2S)\to XJ/\psi$}
+
+A few variables are included to try to identify $\psi(2S)$ transitions to $J/\psi$, sometimes useful for identifying $J/\psi$ backgrounds.  This information is currently included when running over all data sets, but it is only meaningful for $\psi(2S)$ data.
+\begin{verbatim}
+  JPsiPiPiRecoil:  the smallest difference between the J/psi
+                     mass and any combination of pi+ pi-
+                     recoil mass (using all positive and
+                     negative tracks with assumed pion 
+                     masses)
+  JPsiGGRecoil:    the smallest difference between the J/psi
+                     mass and any combination of gamma gamma
+                     recoil mass
+\end{verbatim}
+
+\subsection{Truth Information}
+
+When running over Monte Carlo, the truth information about a given event is included in all three tree types.  These variables should allow one to separate and count signal and background events.  The numbers in this block of information always refer to generator level information.  For example, the ``number of $K^0_L$'' refers to the true number of generated $K^0_L$.
+
+These variables label the generated final state:
+\begin{verbatim}
+  MCDecayCode1:      the true code1, described in the
+                       "final state numbering" section
+  MCDecayCode2:      the true code2, described in the
+                       "final state numbering" section
+  MCExtras:          1000 * number of neutrinos +
+                      100 * number of K_L +
+                       10 * number of neutrons +
+                        1 * number of antineutrons
+  MCTotalEnergy:     the total generated energy calculated
+                       using particles in MCDecayCode(1,2)
+                       and MCExtras:  use this to double-
+                       check that no particles are missing
+  MCSignal:          1 if the reconstructed final state
+                       matches the generated final state;
+                       0 otherwise
+\end{verbatim}
+These variables keep track of how various states were produced, where {\tt X} stands for any particle:
+\begin{verbatim}
+  MCChicProduction:  10 for X to gamma chi_c0
+                     11 for X to gamma chi_c1
+                     12 for X to gamma chi_c2
+                      1 for any other production of chi_cJ
+                      0 for no produced chi_cJ
+  MCJPsiProduction:  1 for X to pi+ pi- J/psi
+                     2 for X to pi0 pi0 J/psi
+                     3 for X to eta J/psi
+                     4 for X to gamma J/psi
+                     5 for X to pi0 J/psi
+                     6 for any other production of J/psi
+                     0 for no produced J/psi
+  MCHcProduction:    1 for X to pi+ pi- h_c
+                     2 for X to pi0 pi0 h_c
+                     3 for X to eta h_c
+                     4 for X to gamma h_c
+                     5 for X to pi0 h_c
+                     6 for any other production of h_c
+                     0 for no produced h_c
+  MCEtacProduction:  1 for X to gamma eta_c
+                     2 for any other production of eta_c
+                     0 for no produced eta_c
+\end{verbatim}
+These variables count the number of ways in which various particles decayed:
+\begin{verbatim}
+  MCEtaDecay:       10000 * number of gamma e+ e- +
+                     1000 * number of gamma pi+ pi- +
+                      100 * number of pi+ pi- pi0 +
+                       10 * number of pi0 pi0 pi0 +
+                        1 * number of gamma gamma
+  MCEtaprimeDecay:  1000000 * number of pi0 pi0 pi0 +
+                     100000 * number of gamma gamma +
+                      10000 * number of gamma omega +
+                       1000 * number of gamma pi+ pi- +
+                        100 * number of gamma rho +
+                         10 * number of eta pi0 pi0 +
+                          1 * number of eta pi+ pi-
+  MCPhiDecay:     10000 * number of gamma eta +
+                   1000 * number of rho pi +
+                    100 * number of pi+ pi- pi0 +
+                     10 * number of Ks Kl +
+                      1 * number of K+ K-
+  MCOmegaDecay:   100 * number of pi+ pi- +
+                   10 * number of gamma pi0 +
+                    1 * number of pi+ pi- pi0
+  MCKsDecay:      10 * number of pi0 pi0 +
+                   1 * number of pi+ pi-
+  MCFSRGamma:   number of FSR gammas in this event
+                 (FSR gammas are ignored elsewhere)
+\end{verbatim}
+The {\tt MCDecayParticle} variables are an ordered list of the PDG ID numbers of the particles coming from the initial decay.  For example, for $\psi(2S)\to\rho^+\pi^-$, {\tt MCDecayParticle1} is -211 (for the $\pi^-$); {\tt MCDecayParticle2} is 213 (for the $\rho^+$); and all the others are zero.
+\begin{verbatim}
+  MCDecayParticle1:  the PDG ID of the 1st particle
+  MCDecayParticle2:  the PDG ID of the 2nd particle
+  MCDecayParticle3:  the PDG ID of the 3rd particle
+  MCDecayParticle4:  the PDG ID of the 4th particle
+  MCDecayParticle5:  the PDG ID of the 5th particle
+  MCDecayParticle6:  the PDG ID of the 6th particle
+\end{verbatim}
+
+
+\end{document}

@@ -1,0 +1,12 @@
+EventCnvSvc.digiRootInputFile = {
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_0.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_1.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_2.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_3.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_4.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_5.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_6.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_7.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_8.dst",
+"/scratchfs/bes/shenpx/My_MC/4600/gammakskpi/gammaKskpi_9.dst"
+};

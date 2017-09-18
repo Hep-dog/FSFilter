@@ -1,0 +1,150 @@
+#!/bin/tcsh -f
+#----------------------------------------------------
+# For help: boss -help, or, boss -h
+# 1. Runing boss interactively 
+# 2. Runing boss in batch on terminal 
+# 3. Submit boss to PBS
+# 4. Running boss in background at local host
+# Sunyz  Oct. 20  2005
+#----------------------------------------------------
+
+# initial settings
+  set cmd = $0
+  set job = ""
+  set fastmode  = ""
+  set runmode   = "pbsbatch"
+  set qname     = "besq@torqsrv"
+  set qname     = "publicq@torqsrv"
+  set outputdir = $3
+  set ver = "6.6.4"
+
+  set JOBOPT   = $2
+  set firstarg = $1
+
+  switch ($firstarg)
+      case -i:
+      case -x:
+        set runmode = interactive
+  breaksw
+      case -t:
+        set runmode = terminal
+  breaksw
+      case -q:
+      case -pbs:
+        set runmode = pbsbatch
+  breaksw
+      case -pbsreport:
+        set runmode = pbsreport
+  breaksw
+      case -b:
+      case -back:
+        set runmode = background
+  breaksw
+      case -h:	
+        case -help:
+	goto Usage
+  breaksw
+      default:
+        echo "For help, $cmd -help or $cmd -h"
+        exit 1   
+  endsw     
+  
+
+
+  set job = $JOBOPT  
+  set bossexe = /afs/ihep.ac.cn/bes3/offline/Boss/${ver}/InstallArea/x86_64-slc5-gcc43-opt/bin/boss.exe 
+
+
+
+  ExeDone:
+  setenv curdir `pwd` 
+  set bosscard = $curdir/$JOBOPT
+#set bosscard = $curdir/jobOptions_rec.txt
+  if ($runmode == interactive) then
+    echo "Running boss interactively ..."
+# if an interactive, check if $DISPLAY is set
+    if(! $?DISPLAY) then
+      echo "You do not setenv your DISPLAY!"
+      exit 1
+    else
+      $bossexe $bosscard
+      exit
+    endif  
+  endif
+
+  if ( "$outputdir" == "") then
+      set bosslog = $curdir/$job.bosslog
+      set bosserr = $curdir/$job.bosserr
+  else
+      if(  -d $outputdir) then
+          echo "output dir:" $outputdir
+      else
+          echo "mkdir -p $outputdir"
+          mkdir -p $outputdir
+       endif
+       set bosslog = $outputdir/$job.bosslog
+       set bosserr = $outputdir/$job.bosserr
+     
+  endif
+  set bosspbs = $curdir/$job.bosspbs
+  rm -f $bosslog $bosserr $bosspbs
+
+# check if the boost card exists
+  if (! -e $bosscard) then
+    echo "The boss card: $bosscard does not exist!"
+    exit 1
+  endif
+		  
+# running boss
+  switch ($runmode)
+    case terminal:
+      echo "Running boss on the terminal ..."
+      $bossexe $bosscard
+      exit
+      breaksw
+    case background:
+      echo "Running Job in background ..."
+      (($bossexe $bosscard >>! $bosslog) >&! $bosserr;)&
+      breaksw
+    case pbsbatch:
+      echo "Submitting Job to PBS ..."
+      echo "#\!/bin/tcsh -f " > $bosspbs
+      #echo "source ${HOME}/${ver}.csh" >> $bosspbs
+      echo "source ${HOME}/bin/boss${ver}" >> $bosspbs
+      echo cd `pwd` >> $bosspbs
+      echo $0 -pbsreport $JOBOPT  $3>> $bosspbs
+      #cat $bosspbs
+      chmod +x $bosspbs
+      qsub -j oe -o /dev/null -N $job -q $qname $bosspbs 
+      breaksw
+    case pbsreport:
+      ((time $bossexe $bosscard) >> $bosslog) >& $bosserr; 
+      rm -f $bosspbs; sleep 3;
+      breaksw
+    default:
+      echo "You are having problem."
+  endsw
+  
+  exit
+  
+  Usage:
+  echo "Usage:"
+  echo "boss [options] [jobOptions]"
+  echo "optins:"
+  echo "  -help (-h) Print this listing"
+  echo "  -i    (-x) Running boss interactively"
+  echo "  -t         Running boss in batch on terminal"
+  echo "  -pbs  (-q) Running boss in PBS queue"
+  echo "  -back (-b) Running boss in background at local host"
+  echo "  1. Running boss interactively"
+  echo "     boss -i jobOptions, or boss -x jobOptions"
+  echo "  2. Runing boss in batch on terminal"
+  echo "     boss -t jobOptions"
+  echo "  3. Running boss in PBS batch"
+  echo "     boss -q jobOptions"
+  echo "  4. Running boss in background at local host" 
+  echo "     boss -b jobOptions"
+  echo "When runing boss in PBS,Please add absolute path of" 
+  echo "     input and output file name"
+  exit 1
+

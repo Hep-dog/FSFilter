@@ -1,0 +1,791 @@
+the topology category statisticcal information
+the total topology number is: 38
+
+topology: 11         Events: 9         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         K+                  321       6
+9         a_0-             -10211       6
+10        eta                 221       9
+11        pi-                -211       9
+14        D0                  421       7
+15        gamma                22       7
+16        anti-K*0           -313      14
+17        pi+                 211      14
+18        pi-                -211      14
+19        pi0                 111      14
+20        anti-K0            -311      16
+21        pi0                 111      16
+22        K_S0                310      20
+23        pi+                 211      22
+24        pi-                -211      22
+
+topology: 26         Events: 9         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+6         psi(4260)       9030443       5
+8         D0                  421       6
+9         anti-D*0           -423       6
+10        anti-K0            -311       8
+11        pi+                 211       8
+12        pi-                -211       8
+13        K_S0                310      10
+14        pi+                 211      13
+15        pi-                -211      13
+16        anti-D0            -421       9
+17        gamma                22       9
+18        K0                  311      16
+19        pi+                 211      16
+20        pi-                -211      16
+21        K_S0                310      18
+22        pi+                 211      21
+23        pi-                -211      21
+
+topology: 27         Events: 5         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D*0           -423       4
+8         rho0                113       6
+9         pi0                 111       6
+10        pi+                 211       8
+11        pi-                -211       8
+14        anti-D0            -421       7
+15        gamma                22       7
+16        K0                  311      14
+17        pi+                 211      14
+18        pi-                -211      14
+19        K_S0                310      16
+20        pi+                 211      19
+21        pi-                -211      19
+
+topology: 25         Events: 4         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D*-                -413       4
+7         D0                  421       4
+8         pi+                 211       4
+9         D-                 -411       6
+10        pi0                 111       6
+11        a_1-             -20213       9
+12        K0                  311       9
+13        rho-               -213      11
+14        pi0                 111      11
+15        pi-                -211      13
+16        pi0                 111      13
+21        K_S0                310      12
+22        pi+                 211      21
+23        pi-                -211      21
+26        K-                 -321       7
+27        pi+                 211       7
+28        pi0                 111       7
+
+topology: 3          Events: 4         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         rho0                113       6
+9         pi0                 111       6
+10        pi+                 211       8
+11        pi-                -211       8
+14        D0                  421       7
+15        gamma                22       7
+16        anti-K0            -311      14
+17        K+                  321      14
+18        pi-                -211      14
+19        K_S0                310      16
+20        pi+                 211      19
+21        pi-                -211      19
+
+topology: 21         Events: 4         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         D0                  421       5
+8         anti-D*0           -423       5
+9         K_S0                310       7
+10        pi0                 111       7
+11        pi+                 211       9
+12        pi-                -211       9
+15        anti-D0            -421       8
+16        pi0                 111       8
+17        K0                  311      15
+18        a_00              10111      15
+19        K_S0                310      17
+20        pi+                 211      19
+21        pi-                -211      19
+22        eta                 221      18
+23        pi0                 111      18
+
+topology: 35         Events: 4         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D*0           -423       4
+8         K-                 -321       6
+9         pi+                 211       6
+10        anti-D0            -421       7
+11        gamma                22       7
+12        K*+                 323      10
+13        rho-               -213      10
+14        K0                  311      12
+15        pi+                 211      12
+16        K_S0                310      14
+17        pi+                 211      16
+18        pi-                -211      16
+19        pi-                -211      13
+20        pi0                 111      13
+
+topology: 0          Events: 3         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         K+                  321       6
+9         pi-                -211       6
+10        pi0                 111       6
+13        D0                  421       7
+14        gamma                22       7
+15        anti-K*0           -313      13
+16        pi+                 211      13
+17        pi-                -211      13
+18        pi0                 111      13
+19        K-                 -321      15
+20        pi+                 211      15
+
+topology: 23         Events: 3         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D*+                 413       4
+7         D-                 -411       4
+8         D+                  411       6
+9         pi0                 111       6
+10        anti-K0            -311       8
+11        pi+                 211       8
+12        pi+                 211       8
+13        pi-                -211       8
+14        pi0                 111       8
+15        K_S0                310      10
+16        pi+                 211      15
+17        pi-                -211      15
+22        K+                  321       7
+23        pi-                -211       7
+24        pi-                -211       7
+
+topology: 30         Events: 2         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D*0           -423       4
+8         omega               223       6
+9         anti-K0            -311       6
+10        pi-                -211       8
+11        pi+                 211       8
+12        pi0                 111       8
+15        K_S0                310       9
+16        pi+                 211      15
+17        pi-                -211      15
+18        anti-D0            -421       7
+19        pi0                 111       7
+20        K*+                 323      18
+21        rho-               -213      18
+22        K+                  321      20
+23        pi0                 111      20
+26        pi-                -211      21
+27        pi0                 111      21
+
+topology: 16         Events: 2         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         K+                  321       6
+9         a_0-             -10211       6
+10        eta                 221       9
+11        pi-                -211       9
+14        D0                  421       7
+15        gamma                22       7
+16        anti-K*0           -313      14
+17        eta                 221      14
+18        K-                 -321      16
+19        pi+                 211      16
+
+topology: 2          Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         anti-D0            -421       5
+8         D*0                 423       5
+9         rho0                113       7
+10        pi0                 111       7
+11        pi+                 211       9
+12        pi-                -211       9
+15        D0                  421       8
+16        pi0                 111       8
+17        K-                 -321      15
+18        pi+                 211      15
+
+topology: 12         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+6         psi(4260)       9030443       5
+8         D0                  421       6
+9         anti-D*0           -423       6
+10        a_1+              20213       8
+11        K-                 -321       8
+12        rho0                113      10
+13        pi+                 211      10
+14        pi+                 211      12
+15        pi-                -211      12
+16        anti-D0            -421       9
+17        gamma                22       9
+18        K+                  321      16
+19        pi-                -211      16
+20        omega               223      16
+21        pi-                -211      20
+22        pi+                 211      20
+23        pi0                 111      20
+
+topology: 13         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         D0                  421       5
+8         anti-D*0           -423       5
+9         anti-K*0           -313       7
+10        rho0                113       7
+11        anti-K0            -311       9
+12        pi0                 111       9
+13        K_S0                310      11
+14        pi+                 211      13
+15        pi-                -211      13
+18        pi+                 211      10
+19        pi-                -211      10
+20        anti-D0            -421       8
+21        gamma                22       8
+22        a_1-             -20213      20
+23        pi+                 211      20
+24        rho0                113      22
+25        pi-                -211      22
+26        pi+                 211      24
+27        pi-                -211      24
+
+topology: 14         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         anti-D0            -421       5
+8         D*0                 423       5
+9         K+                  321       7
+10        pi-                -211       7
+11        pi0                 111       7
+14        D0                  421       8
+15        pi0                 111       8
+16        a_1+              20213      14
+17        K-                 -321      14
+18        rho+                213      16
+19        pi0                 111      16
+20        pi+                 211      18
+21        pi0                 111      18
+
+topology: 15         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         D0                  421       5
+8         anti-D*0           -423       5
+9         rho+                213       7
+10        pi-                -211       7
+11        pi+                 211       9
+12        pi0                 111       9
+15        anti-D0            -421       8
+16        pi0                 111       8
+17        K+                  321      15
+18        pi-                -211      15
+
+topology: 1          Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         phi                 333       6
+9         K0                  311       6
+10        pi+                 211       8
+11        pi-                -211       8
+12        pi0                 111       8
+15        K_S0                310       9
+16        pi+                 211      15
+17        pi-                -211      15
+18        D0                  421       7
+19        gamma                22       7
+20        rho(2S)-         -30213      18
+21        pi+                 211      18
+22        pi-                -211      20
+23        pi+                 211      20
+24        pi-                -211      20
+25        pi0                 111      20
+
+topology: 17         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         anti-D0            -421       5
+8         D*0                 423       5
+9         K+                  321       7
+10        pi-                -211       7
+11        rho0                113       7
+12        pi+                 211      11
+13        pi-                -211      11
+14        D0                  421       8
+15        gamma                22       8
+16        rho+                213      14
+17        pi-                -211      14
+18        pi+                 211      16
+19        pi0                 111      16
+
+topology: 18         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         K+                  321       6
+9         pi-                -211       6
+10        pi0                 111       6
+13        D0                  421       7
+14        gamma                22       7
+15        K_S0                310      13
+16        pi0                 111      13
+17        pi+                 211      15
+18        pi-                -211      15
+
+topology: 19         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D*0           -423       4
+8         K-                 -321       6
+9         pi+                 211       6
+10        pi0                 111       6
+13        anti-D0            -421       7
+14        gamma                22       7
+15        a_1-             -20213      13
+16        K+                  321      13
+17        rho0                113      15
+18        pi-                -211      15
+19        pi+                 211      17
+20        pi-                -211      17
+
+topology: 20         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         K*0                 313       6
+9         pi+                 211       6
+10        pi-                -211       6
+11        K+                  321       8
+12        pi-                -211       8
+13        D0                  421       7
+14        gamma                22       7
+15        K-                 -321      13
+16        pi+                 211      13
+
+topology: 4          Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         rho(2S)+          30213       6
+9         pi-                -211       6
+10        pi+                 211       8
+11        pi+                 211       8
+12        pi-                -211       8
+13        pi0                 111       8
+16        D0                  421       7
+17        gamma                22       7
+18        K-                 -321      16
+19        pi+                 211      16
+20        pi0                 111      16
+
+topology: 22         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D*0           -423       4
+8         K-                 -321       6
+9         pi+                 211       6
+10        pi0                 111       6
+13        anti-D0            -421       7
+14        pi0                 111       7
+15        K+                  321      13
+16        pi-                -211      13
+17        omega               223      13
+18        pi-                -211      17
+19        pi+                 211      17
+20        pi0                 111      17
+
+topology: 5          Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D*0           -423       4
+8         K_1-             -10323       6
+9         pi+                 211       6
+10        rho-               -213       8
+11        anti-K0            -311       8
+12        pi-                -211      10
+13        pi0                 111      10
+16        K_S0                310      11
+17        pi+                 211      16
+18        pi-                -211      16
+19        anti-D0            -421       7
+20        gamma                22       7
+21        K+                  321      19
+22        pi-                -211      19
+23        pi0                 111      19
+
+topology: 24         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D*0           -423       4
+8         K_S0                310       6
+9         pi0                 111       6
+10        pi+                 211       8
+11        pi-                -211       8
+14        anti-D0            -421       7
+15        pi0                 111       7
+16        omega               223      14
+17        K0                  311      14
+18        pi-                -211      16
+19        pi+                 211      16
+20        pi0                 111      16
+23        K_S0                310      17
+24        pi+                 211      23
+25        pi-                -211      23
+
+topology: 6          Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         anti-D0            -421       5
+8         D*0                 423       5
+9         a_1-             -20213       7
+10        pi+                 211       7
+11        rho-               -213       9
+12        pi0                 111       9
+13        pi-                -211      11
+14        pi0                 111      11
+19        D0                  421       8
+20        gamma                22       8
+21        a_1+              20213      19
+22        K-                 -321      19
+23        rho0                113      21
+24        pi+                 211      21
+25        pi+                 211      23
+26        pi-                -211      23
+
+topology: 7          Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D_s*+               433       4
+7         D_s*-              -433       4
+8         D_s+                431       6
+9         gamma                22       6
+10        rho(2S)0          30113       8
+11        K+                  321       8
+12        pi+                 211      10
+13        pi-                -211      10
+14        D_s-               -431       7
+15        gamma                22       7
+16        eta                 221      14
+17        rho-               -213      14
+18        pi0                 111      16
+19        pi0                 111      16
+20        pi0                 111      16
+27        pi-                -211      17
+28        pi0                 111      17
+
+topology: 8          Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+6         psi(4260)       9030443       5
+8         anti-D0            -421       6
+9         D*0                 423       6
+10        K+                  321       8
+11        pi-                -211       8
+12        pi0                 111       8
+15        D0                  421       9
+16        gamma                22       9
+17        K*-                -323      15
+18        rho+                213      15
+19        anti-K0            -311      17
+20        pi-                -211      17
+21        K_S0                310      19
+22        pi+                 211      21
+23        pi-                -211      21
+25        pi+                 211      18
+26        pi0                 111      18
+
+topology: 28         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         anti-D0            -421       5
+8         D*0                 423       5
+9         K*0                 313       7
+10        eta                 221       7
+11        K+                  321       9
+12        pi-                -211       9
+15        D0                  421       8
+16        pi0                 111       8
+17        K-                 -321      15
+18        pi+                 211      15
+
+topology: 29         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         D0                  421       5
+8         anti-D*0           -423       5
+9         K+                  321       7
+10        K-                 -321       7
+11        anti-D0            -421       8
+12        gamma                22       8
+13        K+                  321      11
+14        pi-                -211      11
+15        pi0                 111      11
+
+topology: 9          Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D*+                 413       4
+7         D*-                -413       4
+8         pi0                 111       4
+9         D+                  411       6
+10        pi0                 111       6
+11        K+                  321       9
+12        K-                 -321       9
+13        pi+                 211       9
+16        D-                 -411       7
+17        pi0                 111       7
+18        K0                  311      16
+19        pi-                -211      16
+20        pi0                 111      16
+21        K_S0                310      18
+22        pi+                 211      21
+23        pi-                -211      21
+
+topology: 31         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         D0                  421       5
+8         anti-D*0           -423       5
+9         K-                 -321       7
+10        pi+                 211       7
+11        anti-D0            -421       8
+12        gamma                22       8
+13        K*0                 313      11
+14        rho0                113      11
+15        K+                  321      13
+16        pi-                -211      13
+17        pi+                 211      14
+18        pi-                -211      14
+
+topology: 32         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D0            -421       4
+8         f_2                 225       6
+9         pi0                 111       6
+10        pi0                 111       8
+11        pi0                 111       8
+19        K+                  321       7
+20        pi-                -211       7
+21        pi0                 111       7
+
+topology: 33         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+6         psi(4260)       9030443       5
+8         anti-D0            -421       6
+9         D*0                 423       6
+10        K+                  321       8
+11        pi-                -211       8
+12        pi0                 111       8
+15        D0                  421       9
+16        gamma                22       9
+17        K-                 -321      15
+18        pi+                 211      15
+
+topology: 34         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         K+                  321       6
+9         pi-                -211       6
+10        pi0                 111       6
+13        D0                  421       7
+14        pi0                 111       7
+15        anti-K*0           -313      13
+16        pi+                 211      13
+17        pi-                -211      13
+18        pi0                 111      13
+19        K-                 -321      15
+20        pi+                 211      15
+
+topology: 10         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         D0                  421       4
+7         anti-D*0           -423       4
+8         a_1+              20213       6
+9         K-                 -321       6
+10        rho0                113       8
+11        pi+                 211       8
+12        pi+                 211      10
+13        pi-                -211      10
+14        anti-D0            -421       7
+15        gamma                22       7
+16        K+                  321      14
+17        pi-                -211      14
+18        pi0                 111      14
+
+topology: 36         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+5         psi(4260)       9030443       4
+7         anti-D0            -421       5
+8         D*0                 423       5
+9         K-                 -321       7
+10        K+                  321       7
+11        pi0                 111       7
+14        D0                  421       8
+15        gamma                22       8
+16        K-                 -321      14
+17        pi+                 211      14
+18        pi0                 111      14
+
+topology: 37         Events: 1         
+
+       Event listing (summary)
+I         particle/jet         KF    orig
+4         psi(4260)       9030443       3
+6         anti-D0            -421       4
+7         D*0                 423       4
+8         K+                  321       6
+9         pi-                -211       6
+10        D0                  421       7
+11        pi0                 111       7
+12        a_1+              20213      10
+13        K-                 -321      10
+14        rho0                113      12
+15        pi+                 211      12
+16        pi+                 211      14
+17        pi-                -211      14
+the topology category statisticcal information
+the total topology number is: 38
+type      Event Number
+11        9         
+26        9         
+27        5         
+25        4         
+3         4         
+21        4         
+35        4         
+0         3         
+23        3         
+30        2         
+16        2         
+2         1         
+12        1         
+13        1         
+14        1         
+15        1         
+1         1         
+17        1         
+18        1         
+19        1         
+20        1         
+4         1         
+22        1         
+5         1         
+24        1         
+6         1         
+7         1         
+8         1         
+28        1         
+29        1         
+9         1         
+31        1         
+32        1         
+33        1         
+34        1         
+10        1         
+36        1         
+37        1         

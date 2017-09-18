@@ -1,0 +1,1 @@
+RscanDQ_cxx_dependencies =  ../src/RscanDQ.cxx   /workfs/bes/lig/workarea/6.6.4.p03/InstallArea/include/FSFilter/FSFilter/RscanDQ.h  $(bin)FSFilter_deps/RscanDQ_cxx.stamp

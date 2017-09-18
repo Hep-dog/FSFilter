@@ -1,0 +1,19 @@
+#include  "/besfs/users/lig/jobs/6.6.3.p01/ExCharm/init/common.txt"
+FSFilter.cmEnergy = 4.260000;
+
+FSFilter.FS1  = "EXC000000_001100000_0000110";
+FSFilter.FS2  = "EXC000000_000011000_0000110";
+
+//Input REC or DST file name 
+#include "/besfs/users/lig/data/6.6.3/datalist/list_30084.txt"
+
+//Set output level threshold (2=DEBUG, 3=INFO, 4=WARNING, 5=ERROR, 6=FATAL )
+MessageSvc.OutputLevel = 5;
+
+//Number of events to be processed (default is 10)
+//ApplicationMgr.EvtMax = 7000;
+ApplicationMgr.EvtMax = 10000;
+
+ApplicationMgr.HistogramPersistency = "ROOT";
+NTupleSvc.Output = { "FILE1 DATAFILE='ppll.root' OPT='NEW' TYP='ROOT'"};
+				

@@ -1,0 +1,2 @@
+ApplicationMgr.DLLs += {"FSFilter"};
+ApplicationMgr.TopAlg += { "FSFilter" };

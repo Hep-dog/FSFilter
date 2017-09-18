@@ -1,0 +1,42 @@
+#include  "common.txt"
+FSFilter.FS101      = "EXC0_000000_000000000_1101010";
+FSFilter.FS102      = "EXC0_000000_000000000_M101010";
+FSFilter.FS103      = "INC0_000000_000000000_0101010";
+
+FSFilter.FS201      = "EXC0_000000_000000000_1011100";
+FSFilter.FS202      = "EXC0_000000_000000000_M011100";
+FSFilter.FS203      = "INC0_000000_000000000_0011100";
+
+FSFilter.DATAMC                 =   0       ;
+FSFilter.SaveMC                 =   1       ;
+FSFilter.Debug                  =   0       ;
+FSFilter.UseDb                  =   1       ;
+FSFilter.MassCons               =   1       ;
+FSFilter.UsePid                 =   1       ;
+FSFilter.MaxPCut                =   2.5     ;
+FSFilter.MaxECut                =   2.5     ;
+FSFilter.MinPCut                =   0.0     ;
+FSFilter.MinECut                =   0.0     ;
+FSFilter.TightCut               =   1       ;
+FSFilter.ModeBest               =   1       ;
+FSFilter.DelMassCut             =   0.080   ;
+FSFilter.KsSigmaCut             =   2.000   ;
+FSFilter.RootID                 =   9030443 ;
+FSFilter.cmEnergy               =   4.600000;
+FSFilter.runNumber              =   35227   ;
+FSFilter.printTruthInformation  =   0       ;
+MessageSvc.OutputLevel          =   6       ;
+
+#include "list_gammaKsKPi.txt"
+DTag.NeutralDReconstruction   =       1;
+DTag.ChargedDReconstruction   =       1;
+DTag.DsReconstruction         =       1;
+NeutralDReconstruction.BeamE  =  2.1300;
+ChargedDReconstruction.BeamE  =  2.1300;
+DsReconstruction.BeamE        =  2.1300;
+//
+ApplicationMgr.EvtMax =100000;
+ApplicationMgr.EvtMax = 1000;
+
+ApplicationMgr.HistogramPersistency = "ROOT";
+NTupleSvc.Output = { "FILE1 DATAFILE='DF_MC_gammaKsKPi_4600.root' OPT='NEW' TYP='ROOT'"};

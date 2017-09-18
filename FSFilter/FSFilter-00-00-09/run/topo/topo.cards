@@ -1,0 +1,32 @@
+#do not change the order of the following string
+
+#tree name
+#ppjll
+#ntEXC000011_000000000_0000110
+ntEXC000011_000000000_1000000
+#root file name
+#DF_DT_4360.root
+DF_DT_4260.root
+#
+#CUT
+#Chi2<50&&abs(DmesmassP1-1.865)<0.02&&abs(DmesmassP2-1.865)<0.02&&DmestypeP1==1&&DmestypeP2==1
+
+INCLUSIVE PARTICLE
+0
+
+TOPO START
+0 100443 -1
+1 -211  0
+2  211  0
+3  443  0
+4  13   3
+5 -13   3
+
+0 100443 -1
+1 -211  0
+2  211  0
+3  443  0
+4  11   3
+5 -11   3
+
+

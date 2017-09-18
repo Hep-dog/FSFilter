@@ -1,0 +1,84 @@
+#include "$ROOTIOROOT/share/jobOptions_ReadRec.txt"
+#include "$MAGNETICFIELDROOT/share/MagneticField.txt"
+
+//#include "$VERTEXFITROOT/share/jobOptions_VertexDbSvc.txt"
+//#include "$ABSCORROOT/share/jobOptions_AbsCor.txt"
+//#include "$PI0ETATOGGRECALGROOT/share/jobOptions_Pi0EtaToGGRec.txt"
+
+#include "$DTAGALGROOT/share/jobOptions_dTag.txt"
+#include "$FSFILTERROOT/share/jobOptions_FSFilter.txt"
+//
+FSFilter.UseDb          =     1     ;
+FSFilter.MassCons       =     1     ;
+FSFilter.TightCut       =     1     ;
+FSFilter.ModeBest       =     1     ;
+FSFilter.UsePid         =     0     ;
+FSFilter.neutralStudies =     0     ;
+FSFilter.veeStudies     =     0     ;
+FSFilter.etaStudies     =     0     ;
+FSFilter.pi0Studies     =     0     ;
+FSFilter.UseHis         =     0     ;
+FSFilter.Debug          =     0     ;
+FSFilter.DelMassCut     =     0.050 ;
+FSFilter.KsSigmaCut     =     2.000 ;
+FSFilter.MaxPCut        =     2.5   ;
+FSFilter.MaxECut        =     2.5   ;
+FSFilter.MinPCut        =     0.0   ;
+FSFilter.MinECut        =     0.0   ;
+FSFilter.maxShowers     =     30    ;
+FSFilter.runNumber      =     29676 ;
+MessageSvc.OutputLevel  =     6     ;
+ApplicationMgr.EvtMax   =    -1     ;
+//
+//
+// --- Select which D modes to reconstruct
+
+DTag.NeutralDReconstruction             =       1;
+NeutralDReconstruction.ReadBeamEFromDB  =       0;
+NeutralDReconstruction.BeamE            =  2.1800;
+
+DTag.ChargedDReconstruction             =       1;
+ChargedDReconstruction.ReadBeamEFromDB  =       0;
+ChargedDReconstruction.BeamE            =  2.1800;
+
+DTag.DsReconstruction                   =       1;
+DsReconstruction.ReadBeamEFromDB        =       0;
+DsReconstruction.BeamE                  =  2.1800;
+
+// Select which cuts to apply
+NeutralDSelector.UseMbcCuts             =       0;
+NeutralDSelector.UseDeltaECuts          =       0;
+NeutralDSelector.UseDeltaMassCuts       =       1;
+NeutralDSelector.DMbcMinCut             =   1.800;
+NeutralDSelector.DMbcMaxCut             =   10.00;
+NeutralDSelector.DDeltaEMinCut          =  -0.550;
+NeutralDSelector.DDeltaEMaxCut          =   0.100;
+NeutralDSelector.DDeltaMassMinCut       =  -0.100;
+NeutralDSelector.DDeltaMassMaxCut       =   0.100;
+//
+ChargedDSelector.UseMbcCuts             =       0;
+ChargedDSelector.UseDeltaECuts          =       0;
+ChargedDSelector.UseDeltaMassCuts       =       1;
+ChargedDSelector.DMbcMinCut             =   1.800;
+ChargedDSelector.DMbcMaxCut             =   10.00;
+ChargedDSelector.DDeltaEMinCut          =  -0.550;
+ChargedDSelector.DDeltaEMaxCut          =   0.100;
+ChargedDSelector.DDeltaMassMinCut       =  -0.100;
+ChargedDSelector.DDeltaMassMaxCut       =   0.100;
+//
+DsSelector.UseMbcCuts                   =       0;
+DsSelector.UseDeltaECuts                =       0;
+DsSelector.UseDeltaMassCuts             =       1;
+DsSelector.DMbcMinCut                   =    1.90;
+DsSelector.DMbcMaxCut                   =    10.0;
+DsSelector.DDeltaEMinCut                =  -0.550;
+DsSelector.DDeltaEMaxCut                =   0.100;
+DsSelector.DDeltaMassMinCut             =  -0.100;
+DsSelector.DDeltaMassMaxCut             =   0.100;
+//
+LocalPi0Selector.Pi0MinMassCut = 0.115;
+LocalPi0Selector.Pi0MaxMassCut = 0.150;
+LocalPi0Selector.EtaMinMassCut = 0.505;
+LocalPi0Selector.EtaMaxMassCut = 0.570;
+LocalKsSelector.KsMinMassCut   = 0.487;
+LocalksSelector.KsMaxMassCut   = 0.511;

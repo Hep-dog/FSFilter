@@ -1,0 +1,28 @@
+
+#include  "common.txt"
+#include  "init_4360.modes"
+FSFilter.DATAMC                = 1       ;
+FSFilter.SaveMC                = 1       ;
+FSFilter.Debug                 = 0       ;
+FSFilter.UseDb                 = 1       ;
+FSFilter.MassCons              = 0       ;
+FSFilter.UsePid                = 0       ;
+FSFilter.TightCut              = 0       ;
+FSFilter.DelMassCut            = 0.050   ;
+FSFilter.RootID                = 9030443 ;
+FSFilter.cmEnergy              = 4.360000;
+FSFilter.printTruthInformation = 0       ;
+
+#include "/besfs/users/lig/data/6.6.3.p01/datalist/list_31000.txt"
+DTag.NeutralDReconstruction   =       1;
+DTag.ChargedDReconstruction   =       1;
+DTag.DsReconstruction         =       1;
+NeutralDReconstruction.BeamE  =  2.1800;
+ChargedDReconstruction.BeamE  =  2.1800;
+DsReconstruction.BeamE        =  2.1800;
+//
+ApplicationMgr.EvtMax =  4001;
+
+ApplicationMgr.HistogramPersistency = "ROOT";
+//NTupleSvc.Output = { "FILE1 DATAFILE='/besfs/groups/psip/bes3fsback/psip/lig/root/6.6.3.p01/FSFilter/DF_DT_31001.root' OPT='NEW' TYP='ROOT'"};
+NTupleSvc.Output = { "FILE1 DATAFILE='DF_DT_4360.root' OPT='NEW' TYP='ROOT'"};
